@@ -1,5 +1,6 @@
 package com.github.atomicblom.inspiration.events;
 
+import com.github.atomicblom.inspiration.InspirationMod;
 import com.github.atomicblom.inspiration.model.Capability;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,9 +17,27 @@ public class ChatEvents
 
         final IInspirationCapability capability = event.getPlayer().getCapability(Capability.INSPIRATION, null);
         assert capability != null;
-        capability.addChatMessage(event.getMessage());
+
+        String message = event.getMessage();
+        if (InspirationMod.DEBUG) {
+            switch (message) {
+                case "retrigger":
+                    break;
+                case "prefab":
+                    capability.addChatMessage(event.getUsername() + " did a little poem");
+                    capability.addChatMessage("It was a little example for testing");
+                    capability.addChatMessage("That invoked the magic @mod_id@:stone");
+                    break;
+                default:
+                    capability.addChatMessage(message);
+                    break;
+            }
+        } else {
+            capability.addChatMessage(message);
+        }
         if (capability.isValidPoem()) {
             MinecraftForge.EVENT_BUS.post(new ValidPoemEvent(event.getPlayer(), capability));
         }
+
     }
 }

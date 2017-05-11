@@ -39,12 +39,12 @@ public class InspirationCapabilityProvider implements ICapabilityProvider, INBTS
     @Override
     public NBTBase serializeNBT()
     {
-        return InsprirationCapabilityStorage.instance.writeNBT(INSPIRATION, capability, null);
+        return InspirationCapabilityStorage.instance.writeNBT(INSPIRATION, capability, null);
     }
 
     @Override
     public void deserializeNBT(NBTBase nbt)
     {
-        InsprirationCapabilityStorage.instance.readNBT(INSPIRATION, capability, null, nbt);
+        InspirationCapabilityStorage.instance.readNBT(INSPIRATION, capability, null, nbt);
     }
 }

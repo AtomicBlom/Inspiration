@@ -14,6 +14,8 @@ public class InspirationCapability implements IInspirationCapability
 
     private Map<Inspiration, AcquiredInspiration> aquiredInspirations = Maps.newHashMap();
 
+    public InspirationCapability() {
+    }
 
     @Override
     public void addChatMessage(String message)
@@ -24,15 +26,15 @@ public class InspirationCapability implements IInspirationCapability
     }
 
     public boolean isValidPoem() {
-        return recentLines[0].length == 3 &&
-                recentLines[1].length == 5 &&
-                recentLines[2].length == 3;
+        return recentLines[0] != null && recentLines[0].length == 5 &&
+                recentLines[1] != null && recentLines[1].length == 7 &&
+                recentLines[2] != null && recentLines[2].length == 5;
     }
 
     @Override
     public String[] getPoemParts(int line)
     {
-        return recentLines[line + 1];
+        return recentLines[line - 1];
     }
 
     @Override

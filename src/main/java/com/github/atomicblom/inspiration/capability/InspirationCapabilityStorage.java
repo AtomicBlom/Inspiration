@@ -6,9 +6,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
-public class InsprirationCapabilityStorage implements IStorage<IInspirationCapability>
+public class InspirationCapabilityStorage implements IStorage<IInspirationCapability>
 {
-    public static final IStorage<IInspirationCapability> instance = new InsprirationCapabilityStorage();
+    public static final IStorage<IInspirationCapability> instance = new InspirationCapabilityStorage();
 
     @Override
     public NBTBase writeNBT(Capability<IInspirationCapability> capability, IInspirationCapability instance, EnumFacing side)

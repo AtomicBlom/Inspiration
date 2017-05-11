@@ -1,7 +1,11 @@
 package com.github.atomicblom.inspiration;
 
+import com.github.atomicblom.inspiration.capability.IInspirationCapability;
+import com.github.atomicblom.inspiration.capability.InspirationCapability;
+import com.github.atomicblom.inspiration.capability.InspirationCapabilityStorage;
 import com.github.atomicblom.inspiration.command.GiveInspirationCommand;
 import com.github.atomicblom.inspiration.util.Logger;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -13,8 +17,7 @@ import static com.github.atomicblom.inspiration.util.Reference.*;
 @Mod(modid = MODID, version = VERSION)
 public class InspirationMod
 {
-
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
@@ -24,6 +27,9 @@ public class InspirationMod
         if (DEBUG) {
             Logger.info("Inspiration Debugging is enabled.");
         }
+
+        //Capabilities
+        CapabilityManager.INSTANCE.register(IInspirationCapability.class, InspirationCapabilityStorage.instance, InspirationCapability::new);
     }
 
     @EventHandler

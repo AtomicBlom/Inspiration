@@ -46,7 +46,7 @@ public class PoemEvents
 
         List<Inspiration> validInspirations = Lists.newArrayList();
         for (IAcquiredInspiration inspiration : possibleActions.get()) {
-
+            
         }
     }
     

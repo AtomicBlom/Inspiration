@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.annotation.Nonnull;
@@ -44,6 +45,7 @@ public class GiveInspirationCommand extends CommandBase {
         double inspirationAmount = CommandBase.parseDouble(args[2], 0, Reference.Limits.Maximum);
 
         capability.addInspiration(inspiration, inspirationAmount);
+        sender.sendMessage(new TextComponentTranslation(Reference.Commands.GiveInspiration.CommandSucceeded, inspiration.getRegistryName(), inspirationAmount));
     }
 
     private Inspiration resolveRequestedInspiration(String inspirationName) throws CommandException {
