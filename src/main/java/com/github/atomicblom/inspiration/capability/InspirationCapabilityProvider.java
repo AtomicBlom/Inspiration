@@ -6,9 +6,11 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.github.atomicblom.inspiration.Capability.INSPIRATION;
+import static com.github.atomicblom.inspiration.model.Capability.INSPIRATION;
 
+@ParametersAreNonnullByDefault
 public class InspirationCapabilityProvider implements ICapabilityProvider, INBTSerializable<NBTBase>
 {
     private final IInspirationCapability capability;
@@ -31,7 +33,6 @@ public class InspirationCapabilityProvider implements ICapabilityProvider, INBTS
         {
             return INSPIRATION.cast(this.capability);
         }
-        //noinspection ReturnOfNull
         return null;
     }
 

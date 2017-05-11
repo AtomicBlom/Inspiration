@@ -1,6 +1,7 @@
 package com.github.atomicblom.inspiration.events;
 
 import com.github.atomicblom.inspiration.capability.InspirationCapabilityProvider;
+import com.github.atomicblom.inspiration.util.Reference;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -14,7 +15,7 @@ public class CapabilityEvents
     public static void onCapabilityAttaching(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof EntityPlayer)
         {
-            event.addCapability(Resources.CapabilityResourceLocation, new InspirationCapabilityProvider());
+            event.addCapability(Reference.CapabilityResourceLocation, new InspirationCapabilityProvider());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.github.atomicblom.inspiration.events;
 
-import com.github.atomicblom.inspiration.Capability;
+import com.github.atomicblom.inspiration.model.Capability;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;

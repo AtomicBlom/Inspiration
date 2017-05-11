@@ -3,7 +3,7 @@ package com.github.atomicblom.inspiration.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
-import static com.github.atomicblom.inspiration.events.Resources.MODID;
+import static com.github.atomicblom.inspiration.util.Reference.MODID;
 
 public enum Logger
 {

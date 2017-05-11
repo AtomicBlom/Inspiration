@@ -1,4 +1,4 @@
-package com.github.atomicblom.inspiration;
+package com.github.atomicblom.inspiration.model;
 
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
