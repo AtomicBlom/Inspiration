@@ -10,10 +10,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 @Mod(modid = InspirationMod.MODID, version = InspirationMod.VERSION)
 public class InspirationMod
 {
-    public static final String MODID = "@MOD_ID@";
-    public static final String VERSION = "@MOD_VERSION@";
+    public static final String MODID = "@mod_id@";
+    public static final String VERSION = "@mod_version@";
     public static boolean DEBUG = false;
-    public static final String IS_CI_BUILD = "@CI_BUILD@";
+    public static final String IS_CI_BUILD = "@ci_build@";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
