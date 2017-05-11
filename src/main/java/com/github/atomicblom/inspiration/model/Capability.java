@@ -3,6 +3,7 @@ package com.github.atomicblom.inspiration.model;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
+@SuppressWarnings({"UtilityClass", "AssignmentToNull"})
 public final class Capability {
     @CapabilityInject(IInspirationCapability.class)
     public static final net.minecraftforge.common.capabilities.Capability<IInspirationCapability> INSPIRATION;
@@ -10,4 +11,6 @@ public final class Capability {
     static {
         INSPIRATION = null;
     }
+
+    private Capability() {}
 }

@@ -10,17 +10,18 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
-@Mod.EventBusSubscriber()
-public class RegisterInspirationEvent {
+@Mod.EventBusSubscriber
+public final class RegisterInspirationEvent {
     @SubscribeEvent
     public static void onRegisterInspirations(RegistryEvent.Register<Inspiration> event) {
-        IForgeRegistry<Inspiration> registry = event.getRegistry();
+        final IForgeRegistry<Inspiration> registry = event.getRegistry();
 
-        for (Item item : Item.REGISTRY) {
+        for (final Item item : Item.REGISTRY) {
 
-            ResourceLocation registryName = item.getRegistryName();
+            final ResourceLocation registryName = item.getRegistryName();
+            assert registryName != null;
             if ("minecraft".equals(registryName.getResourceDomain())) {
-                registry.register(new ItemInspiration(item).setRegistryName(new ResourceLocation(Reference.MODID, registryName.getResourcePath())));
+                registry.register(new ItemInspiration(item).setRegistryName(new ResourceLocation(Reference.MOD_ID, registryName.getResourcePath())));
             }
         }
     }

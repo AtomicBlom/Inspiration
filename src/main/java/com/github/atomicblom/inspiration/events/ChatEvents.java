@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(Side.SERVER)
-public class ChatEvents
+public final class ChatEvents
 {
     @SubscribeEvent
     public static void onServerChatEvent(ServerChatEvent event) {
@@ -18,7 +18,7 @@ public class ChatEvents
         final IInspirationCapability capability = event.getPlayer().getCapability(Capability.INSPIRATION, null);
         assert capability != null;
 
-        String message = event.getMessage();
+        final String message = event.getMessage();
         if (InspirationMod.DEBUG) {
             switch (message) {
                 case "retrigger":
@@ -26,7 +26,7 @@ public class ChatEvents
                 case "prefab":
                     capability.addChatMessage(event.getUsername() + " did a little poem");
                     capability.addChatMessage("It was a little example for testing");
-                    capability.addChatMessage("That invoked the magic @mod_id@:stone");
+                    capability.addChatMessage("That invoked the magic cactus");
                     break;
                 default:
                     capability.addChatMessage(message);

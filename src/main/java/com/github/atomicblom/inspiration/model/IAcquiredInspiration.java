@@ -6,4 +6,8 @@ package com.github.atomicblom.inspiration.model;
 public interface IAcquiredInspiration {
 
     Inspiration getInspiration();
+
+    void setTranslation(String translation);
+
+    boolean canBeUsedFor(String[] parts);
 }

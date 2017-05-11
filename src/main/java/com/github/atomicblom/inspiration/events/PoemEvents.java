@@ -1,6 +1,5 @@
 package com.github.atomicblom.inspiration.events;
 
-import com.github.atomicblom.inspiration.model.AcquiredInspiration;
 import com.github.atomicblom.inspiration.model.IAcquiredInspiration;
 import com.github.atomicblom.inspiration.model.Inspiration;
 import com.github.atomicblom.inspiration.InspirationMod;
@@ -18,13 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber
-public class PoemEvents
+public final class PoemEvents
 {
     @SubscribeEvent
     public static void onValidPoem(ValidPoemEvent event) {
-        IInspirationCapability capability = event.getCapability();
+        final IInspirationCapability capability = event.getCapability();
         final String[] firstLineParts = capability.getPoemParts(1);
-        Optional<EntityPlayerMP> player = getMentionedPlayer(firstLineParts, event.getWorld());
+        final Optional<EntityPlayerMP> player = getMentionedPlayer(firstLineParts, event.getWorld());
         if (!player.isPresent()) {
             Logger.info("Poem is not valid, no player specified");
             return;
@@ -38,33 +37,25 @@ public class PoemEvents
         }
 
         final String[] lastLineParts = capability.getPoemParts(3);
-        Optional<List<IAcquiredInspiration>> possibleActions = getInspirations(lastLineParts, capability.getInspirations());
+        final Optional<List<IAcquiredInspiration>> possibleActions = getInspirations(lastLineParts, capability.getInspirations());
         if (!possibleActions.isPresent()) {
             Logger.info("player attempted to compose a poem with no valid inspirations");
             return;
         }
 
-        List<Inspiration> validInspirations = Lists.newArrayList();
-        for (IAcquiredInspiration inspiration : possibleActions.get()) {
+        final List<Inspiration> validInspirations = Lists.newArrayList();
+        for (final IAcquiredInspiration inspiration : possibleActions.get()) {
             
         }
     }
     
     private static Optional<List<IAcquiredInspiration>> getInspirations(String[] parts, List<IAcquiredInspiration> playerInspirations) {
-        List<IAcquiredInspiration> usableInspirations = Lists.newArrayList();
-        for (String part : parts) {
-            for (IAcquiredInspiration acquiredInspiration : playerInspirations) {
-                Inspiration inspiration = acquiredInspiration.getInspiration();
-                if (inspiration.canBeUsedFor(part) && !usableInspirations.contains(acquiredInspiration)) {
-                    usableInspirations.add(acquiredInspiration);
-                }
-            }
-        }
+        final List<IAcquiredInspiration> usableInspirations = Lists.newArrayList();
 
-        for (IAcquiredInspiration acquiredInspiration : playerInspirations) {
-            Inspiration inspiration = acquiredInspiration.getInspiration();
-            if (inspiration.canBeUsedFor(parts) && !usableInspirations.contains(acquiredInspiration)) {
+        for (final IAcquiredInspiration acquiredInspiration : playerInspirations) {
+            if (acquiredInspiration.canBeUsedFor(parts) && !usableInspirations.contains(acquiredInspiration)) {
                 usableInspirations.add(acquiredInspiration);
+                Logger.info("Found usable inspiration: " + acquiredInspiration.getInspiration().getTranslationKey());
             }
         }
 
@@ -76,7 +67,7 @@ public class PoemEvents
 
     private static Optional<EntityPlayerMP> getMentionedPlayer(String[] parts, World world)
     {
-        MinecraftServer minecraftServer = world.getMinecraftServer();
+        final MinecraftServer minecraftServer = world.getMinecraftServer();
         assert  minecraftServer != null;
         final PlayerList playerList = minecraftServer.getPlayerList();
         for (final String part : parts)

@@ -1,21 +1,19 @@
 package com.github.atomicblom.inspiration.util;
 
-import com.github.atomicblom.inspiration.model.Action;
-import com.github.atomicblom.inspiration.model.Inspiration;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
 
+@SuppressWarnings("UtilityClass")
 public final class Reference
 {
-    public static final String MODID = "@mod_id@";
-    public static final String VERSION = "@mod_version@";
+    public static final String MOD_ID = "inspiration";
+    public static final String MOD_VERSION = "@mod_version@";
     public static final String IS_CI_BUILD = "@ci_build@";
 
     public static final ResourceLocation CapabilityResourceLocation = resource("inspiration_capability");
 
     private static ResourceLocation resource(String path)
     {
-        return new ResourceLocation(MODID, path);
+        return new ResourceLocation(MOD_ID, path);
     }
 
     public static final class Limits {
@@ -27,12 +25,8 @@ public final class Reference
 
     public static final class Registries {
 
-        public static ResourceLocation InspirationRegistryName = resource("inspiration_registry");
-        public static ResourceLocation ActionRegistryName = resource("action_registry");
-
-        //Created during RegistryEvents.onCreateRegistries()
-        public static IForgeRegistry<Inspiration> Inspirations;
-        public static IForgeRegistry<Action> Actions;
+        public static final ResourceLocation InspirationRegistryName = resource("inspiration_registry");
+        public static final ResourceLocation ActionRegistryName = resource("action_registry");
 
         private Registries() {}
     }
@@ -55,7 +49,7 @@ public final class Reference
 
     public static final class Errors {
 
-        public static String CapabilityNotAvailable = resource("error.CapabilityNotAvailable").toString();
+        public static final String CapabilityNotAvailable = resource("error.CapabilityNotAvailable").toString();
 
         private Errors() {}
     }

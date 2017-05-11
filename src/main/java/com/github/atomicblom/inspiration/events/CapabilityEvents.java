@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
-public class CapabilityEvents
+public final class CapabilityEvents
 {
     @SubscribeEvent
     public static void onCapabilityAttaching(AttachCapabilitiesEvent<Entity> event) {

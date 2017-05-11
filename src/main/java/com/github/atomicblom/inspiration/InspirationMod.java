@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import static com.github.atomicblom.inspiration.util.Reference.*;
 
-@Mod(modid = MODID, version = VERSION)
+@Mod(modid = MOD_ID, version = MOD_VERSION)
 public class InspirationMod
 {
     public static boolean DEBUG = true;
@@ -30,6 +30,7 @@ public class InspirationMod
 
         //Capabilities
         CapabilityManager.INSTANCE.register(IInspirationCapability.class, InspirationCapabilityStorage.instance, InspirationCapability::new);
+        Services.initializeNetworkService();
     }
 
     @EventHandler

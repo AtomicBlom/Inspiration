@@ -3,7 +3,7 @@ package com.github.atomicblom.inspiration.util;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
-import static com.github.atomicblom.inspiration.util.Reference.MODID;
+import static com.github.atomicblom.inspiration.util.Reference.MOD_ID;
 
 public enum Logger
 {
@@ -47,7 +47,7 @@ public enum Logger
     {
         if (logger == null)
         {
-            logger = LogManager.getLogger(MODID);
+            logger = LogManager.getLogger(MOD_ID);
         }
     }
 

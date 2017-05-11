@@ -3,6 +3,7 @@ package com.github.atomicblom.inspiration.capability;
 import com.github.atomicblom.inspiration.model.IAcquiredInspiration;
 import com.github.atomicblom.inspiration.model.Inspiration;
 import com.google.common.collect.ImmutableList;
+import java.util.function.Consumer;
 
 public interface IInspirationCapability
 {
@@ -14,5 +15,5 @@ public interface IInspirationCapability
 
     ImmutableList<IAcquiredInspiration> getInspirations();
 
-    void addInspiration(Inspiration inspiration, double amount);
+    void addInspiration(Inspiration inspiration, double amount, Consumer<Inspiration> onCreateAction);
 }
