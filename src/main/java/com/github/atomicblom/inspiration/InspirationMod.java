@@ -7,13 +7,15 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = InspirationMod.MODID, version = InspirationMod.VERSION)
+import static com.github.atomicblom.inspiration.events.Resources.IS_CI_BUILD;
+import static com.github.atomicblom.inspiration.events.Resources.MODID;
+import static com.github.atomicblom.inspiration.events.Resources.VERSION;
+
+@Mod(modid = MODID, version = VERSION)
 public class InspirationMod
 {
-    public static final String MODID = "@mod_id@";
-    public static final String VERSION = "@mod_version@";
+
     public static boolean DEBUG = false;
-    public static final String IS_CI_BUILD = "@ci_build@";
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){

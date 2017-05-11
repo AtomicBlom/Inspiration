@@ -1,8 +1,9 @@
 package com.github.atomicblom.inspiration.util;
 
-import com.github.atomicblom.inspiration.InspirationMod;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+
+import static com.github.atomicblom.inspiration.events.Resources.MODID;
 
 public enum Logger
 {
@@ -46,7 +47,7 @@ public enum Logger
     {
         if (logger == null)
         {
-            logger = LogManager.getLogger(InspirationMod.MODID);
+            logger = LogManager.getLogger(MODID);
         }
     }
 
