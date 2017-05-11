@@ -46,6 +46,7 @@ public final class Reference
             public static final String NotEnoughParameters = resource("command.GiveInspiration.NotEnoughParameters").toString();
             public static final String NoSuchPlayer = resource("command.GiveInspiration.NoSuchPlayer").toString();
             public static final String Usage = resource("command.GiveInspiration.Usage").toString();
+            public static final String NoSuchInspiration = resource("command.GiveInspiration.NoSuchInspiration").toString();
 
             private GiveInspiration() {}
         }

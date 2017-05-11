@@ -10,6 +10,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class GiveInspirationCommand extends CommandBase {
     @Override
     public String getName() {
-        return "giveInspiration";
+        return "giveinspiration";
     }
 
     @Override
@@ -45,9 +46,14 @@ public class GiveInspirationCommand extends CommandBase {
         capability.addInspiration(inspiration, inspirationAmount);
     }
 
-    private Inspiration resolveRequestedInspiration(String inspirationName) {
-        throw new NotImplementedException();
-        //return Optional.empty();
+    private Inspiration resolveRequestedInspiration(String inspirationName) throws CommandException {
+
+        Inspiration inspiration = Reference.Registries.Inspirations.getValue(new ResourceLocation(inspirationName));
+        if (inspiration == null) {
+            throw new CommandException(Reference.Commands.GiveInspiration.NoSuchInspiration);
+        }
+
+        return inspiration;
     }
 
     private IInspirationCapability resolvePlayerInspirationCapability(MinecraftServer server, String playerName) throws CommandException {
@@ -71,6 +77,14 @@ public class GiveInspirationCommand extends CommandBase {
         }
         if (args.length == 1) {
             return java.util.Arrays.stream(server.getOnlinePlayerNames()).filter(s -> s.startsWith(args[0])).collect(Collectors.toList());
+        }
+
+        if (args.length == 2) {
+            return Reference.Registries.Inspirations.getKeys()
+                    .stream()
+                    .map(ResourceLocation::toString)
+                    .filter(s -> s.startsWith(args[1]))
+                    .collect(Collectors.toList());
         }
         return super.getTabCompletions(server, sender, args, targetPos);
     }

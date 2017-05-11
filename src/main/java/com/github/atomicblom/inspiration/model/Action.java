@@ -7,4 +7,3 @@ import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
  */
 public class Action extends IForgeRegistryEntry.Impl<Action> {
 }
-    
