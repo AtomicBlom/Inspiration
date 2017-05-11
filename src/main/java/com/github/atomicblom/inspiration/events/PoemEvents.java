@@ -1,5 +1,6 @@
 package com.github.atomicblom.inspiration.events;
 
+import com.github.atomicblom.inspiration.util.Logger;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
@@ -14,7 +15,12 @@ public class PoemEvents
     @SubscribeEvent
     public static void onValidPoem(ValidPoemEvent event) {
         final String[] firstLineParts = event.getCapability().getPoemParts(1);
-        String playerName = getMentionedPlayer(firstLineParts, event.getWorld());
+        Optional<EntityPlayerMP> player = getMentionedPlayer(firstLineParts, event.getWorld());
+        if (!player.isPresent()) {
+            Logger.info("Poem is not valid, no player specified");
+        }
+        final EntityPlayerMP target = player.get();
+        Logger.info("Poem targets player " + target.getName());
     }
 
     private static Optional<EntityPlayerMP> getMentionedPlayer(String[] firstLineParts, World world)
@@ -23,9 +29,11 @@ public class PoemEvents
         for (final String part : firstLineParts)
         {
             final EntityPlayerMP playerByUsername = playerList.getPlayerByUsername(part);
-
-            return Optional.of(playerByUsername);
+            if (playerByUsername != null)
+            {
+                return Optional.of(playerByUsername);
+            }
         }
-
+        return Optional.empty();
     }
 }
