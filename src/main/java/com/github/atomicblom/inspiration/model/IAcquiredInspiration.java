@@ -10,4 +10,8 @@ public interface IAcquiredInspiration {
     void setTranslation(String translation);
 
     boolean canBeUsedFor(String[] parts);
+
+    String getTranslation();
+
+    double getAmount();
 }

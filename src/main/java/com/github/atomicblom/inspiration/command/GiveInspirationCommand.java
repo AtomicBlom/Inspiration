@@ -2,15 +2,22 @@ package com.github.atomicblom.inspiration.command;
 
 import com.github.atomicblom.inspiration.Services;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
+import com.github.atomicblom.inspiration.model.EntityInspiration;
+import com.github.atomicblom.inspiration.model.ItemInspiration;
 import com.github.atomicblom.inspiration.network.message.GatherTranslationRequest;
 import com.github.atomicblom.inspiration.util.Reference;
 import com.github.atomicblom.inspiration.model.Capability;
 import com.github.atomicblom.inspiration.model.Inspiration;
+import com.google.common.collect.Lists;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +27,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +36,7 @@ import java.util.stream.Collectors;
 public class GiveInspirationCommand extends CommandBase {
     @Override
     public String getName() {
-        return "giveinspiration";
+        return Reference.Commands.GiveInspiration.Command;
     }
 
     @Override
@@ -38,14 +46,14 @@ public class GiveInspirationCommand extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        if (args.length < 3) {
+        if (args.length < 4) {
             throw new CommandException(Reference.Commands.GiveInspiration.NotEnoughParameters);
         }
 
         final EntityPlayerMP player = getPlayer(server, args[0]);
         final IInspirationCapability capability = resolveInspirationCapability(server, player);
-        final Inspiration inspiration = resolveRequestedInspiration(args[1]);
-        final double inspirationAmount = CommandBase.parseDouble(args[2], 0, Reference.Limits.Maximum);
+        final Inspiration inspiration = resolveRequestedInspiration(args[1], args[2]);
+        final double inspirationAmount = CommandBase.parseDouble(args[3], 0, Reference.Limits.Maximum);
 
         capability.addInspiration(inspiration, inspirationAmount, theInspiration -> {
             Services.NETWORK.sendTo(
@@ -53,17 +61,29 @@ public class GiveInspirationCommand extends CommandBase {
                     player
             );
         });
-        sender.sendMessage(new TextComponentTranslation(Reference.Commands.GiveInspiration.CommandSucceeded, inspiration.getRegistryName(), inspirationAmount));
+        sender.sendMessage(new TextComponentTranslation(Reference.Commands.GiveInspiration.CommandSucceeded, inspiration.getTranslationKey(), inspirationAmount));
     }
 
-    private static Inspiration resolveRequestedInspiration(String inspirationName) throws CommandException {
+    private static Inspiration resolveRequestedInspiration(String type, String inspirationName) throws CommandException {
 
-        final Inspiration inspiration = Services.Inspirations.getValue(new ResourceLocation(inspirationName));
-        if (inspiration == null) {
-            throw new CommandException(Reference.Commands.GiveInspiration.NoSuchInspiration);
+        ResourceLocation name = new ResourceLocation(inspirationName);
+        if ("item".equals(type)) {
+            Item item = Item.REGISTRY.getObject(name);
+            if (item == null) {
+                throw new CommandException(Reference.Commands.GiveInspiration.NoSuchInspiration);
+            }
+
+            return new ItemInspiration(new ItemStack(item));
+        } else if ("entity".equals(type)) {
+            Entity entity = EntityList.createEntityByIDFromName(name, null);
+            if (entity == null) {
+                throw new CommandException(Reference.Commands.GiveInspiration.NoSuchInspiration);
+            }
+
+            return new EntityInspiration(entity);
         }
 
-        return inspiration;
+        throw new CommandException(Reference.Commands.GiveInspiration.NoSuchInspiration);
     }
 
     private static IInspirationCapability resolveInspirationCapability(MinecraftServer server, EntityPlayerMP player) throws CommandException {
@@ -95,11 +115,25 @@ public class GiveInspirationCommand extends CommandBase {
         }
 
         if (args.length == 2) {
-            return Services.Inspirations.getKeys()
-                    .stream()
-                    .map(ResourceLocation::toString)
-                    .filter(s -> s.startsWith(args[1]))
-                    .collect(Collectors.toList());
+            return Lists.newArrayList("item", "entity");
+        }
+
+        if (args.length == 3) {
+            String type = args[1].toLowerCase();
+            if ("item".equals(type)) {
+                return Item.REGISTRY.getKeys()
+                        .stream()
+                        .map(ResourceLocation::toString)
+                        .filter(s -> s.startsWith(args[2]))
+                        .collect(Collectors.toList());
+            } else if ("entity".equals(type)) {
+                return EntityList.getEntityNameList()
+                        .stream()
+                        .map(ResourceLocation::toString)
+                        .filter(s -> s.startsWith(args[2]))
+                        .collect(Collectors.toList());
+            }
+            return Lists.newArrayList();
         }
         return super.getTabCompletions(server, sender, args, targetPos);
     }

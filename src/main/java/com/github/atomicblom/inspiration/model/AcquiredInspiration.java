@@ -61,4 +61,8 @@ public class AcquiredInspiration implements IAcquiredInspiration {
     public double getAmount() {
         return amount;
     }
+
+    public String getTranslation() {
+        return String.join(" ", translation);
+    }
 }

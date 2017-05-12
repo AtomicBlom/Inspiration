@@ -7,13 +7,13 @@ import java.util.function.Consumer;
 
 public interface IInspirationCapability
 {
-    void addChatMessage(String message);
+    void addPoemLine(String message);
 
     boolean isValidPoem();
 
     String[] getPoemParts(int i);
 
-    ImmutableList<IAcquiredInspiration> getInspirations();
+    ImmutableList<IAcquiredInspiration> getAcquiredInspirations();
 
     void addInspiration(Inspiration inspiration, double amount, Consumer<Inspiration> onCreateAction);
 }

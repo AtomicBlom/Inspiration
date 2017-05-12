@@ -20,7 +20,7 @@ public class GatherTranslationsResponseHandler implements IMessageHandler<Gather
         final IInspirationCapability capability = player.getCapability(Capability.INSPIRATION, null);
         assert capability != null;
 
-        for (final IAcquiredInspiration inspiration : capability.getInspirations())
+        for (final IAcquiredInspiration inspiration : capability.getAcquiredInspirations())
         {
             if (inspiration.getInspiration().getTranslationKey().equals(message.getTranslationKey())) {
                 Logger.info("Translation key %s maps to %s for %s", message.getTranslationKey(), message.getTranslation(), player.getName());

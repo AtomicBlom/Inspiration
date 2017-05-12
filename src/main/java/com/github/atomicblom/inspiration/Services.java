@@ -17,11 +17,9 @@ public final class Services
 {
     public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
 
-    public static IForgeRegistry<Inspiration> Inspirations;
     public static IForgeRegistry<Action> Actions;
 
     static {
-        Inspirations = null;
         Actions = null;
     }
 

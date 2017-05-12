@@ -1,5 +1,6 @@
-package com.github.atomicblom.inspiration.events;
+package com.github.atomicblom.inspiration.eventhandler;
 
+import com.github.atomicblom.inspiration.events.ValidPoemEvent;
 import com.github.atomicblom.inspiration.model.IAcquiredInspiration;
 import com.github.atomicblom.inspiration.model.Inspiration;
 import com.github.atomicblom.inspiration.InspirationMod;
@@ -37,7 +38,7 @@ public final class PoemEvents
         }
 
         final String[] lastLineParts = capability.getPoemParts(3);
-        final Optional<List<IAcquiredInspiration>> possibleActions = getInspirations(lastLineParts, capability.getInspirations());
+        final Optional<List<IAcquiredInspiration>> possibleActions = getInspirations(lastLineParts, capability.getAcquiredInspirations());
         if (!possibleActions.isPresent()) {
             Logger.info("player attempted to compose a poem with no valid inspirations");
             return;
@@ -55,7 +56,7 @@ public final class PoemEvents
         for (final IAcquiredInspiration acquiredInspiration : playerInspirations) {
             if (acquiredInspiration.canBeUsedFor(parts) && !usableInspirations.contains(acquiredInspiration)) {
                 usableInspirations.add(acquiredInspiration);
-                Logger.info("Found usable inspiration: " + acquiredInspiration.getInspiration().getTranslationKey());
+                Logger.info("Found usable inspiration: %s (%f)",  acquiredInspiration.getTranslation(), acquiredInspiration.getAmount());
             }
         }
 

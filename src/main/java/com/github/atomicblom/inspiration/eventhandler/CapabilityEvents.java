@@ -1,4 +1,4 @@
-package com.github.atomicblom.inspiration.events;
+package com.github.atomicblom.inspiration.eventhandler;
 
 import com.github.atomicblom.inspiration.capability.InspirationCapabilityProvider;
 import com.github.atomicblom.inspiration.util.Reference;
@@ -15,7 +15,7 @@ public final class CapabilityEvents
     public static void onCapabilityAttaching(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof EntityPlayer)
         {
-            event.addCapability(Reference.CapabilityResourceLocation, new InspirationCapabilityProvider());
+            event.addCapability(Reference.Capability.CapabilityResourceLocation, new InspirationCapabilityProvider());
         }
     }
 }
