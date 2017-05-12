@@ -2,7 +2,7 @@ package com.github.atomicblom.inspiration.capability;
 
 import com.github.atomicblom.inspiration.model.AcquiredInspiration;
 import com.github.atomicblom.inspiration.model.IAcquiredInspiration;
-import com.github.atomicblom.inspiration.model.Inspiration;
+import com.github.atomicblom.inspiration.model.inspiration.Inspiration;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 

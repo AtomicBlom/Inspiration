@@ -1,7 +1,6 @@
 package com.github.atomicblom.inspiration;
 
-import com.github.atomicblom.inspiration.model.Action;
-import com.github.atomicblom.inspiration.model.Inspiration;
+import com.github.atomicblom.inspiration.model.action.Action;
 import com.github.atomicblom.inspiration.network.handling.GatherTranslationsRequestHandler;
 import com.github.atomicblom.inspiration.network.handling.GatherTranslationsResponseHandler;
 import com.github.atomicblom.inspiration.network.message.GatherTranslationRequest;

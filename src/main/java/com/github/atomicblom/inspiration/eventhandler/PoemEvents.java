@@ -1,19 +1,32 @@
 package com.github.atomicblom.inspiration.eventhandler;
 
 import com.github.atomicblom.inspiration.events.ValidPoemEvent;
-import com.github.atomicblom.inspiration.model.IAcquiredInspiration;
-import com.github.atomicblom.inspiration.model.Inspiration;
+import com.github.atomicblom.inspiration.model.*;
 import com.github.atomicblom.inspiration.InspirationMod;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
+import com.github.atomicblom.inspiration.model.action.Action;
+import com.github.atomicblom.inspiration.model.action.ActionContext;
+import com.github.atomicblom.inspiration.model.action.ActionToPerform;
+import com.github.atomicblom.inspiration.model.behaviour.BehaviourModifier;
+import com.github.atomicblom.inspiration.model.behaviour.DefaultBehaviourModifier;
+import com.github.atomicblom.inspiration.model.inspiration.Inspiration;
+import com.github.atomicblom.inspiration.model.location.DefaultLocationModifier;
+import com.github.atomicblom.inspiration.model.location.LocationModifier;
+import com.github.atomicblom.inspiration.model.shape.DefaultShapeModifier;
+import com.github.atomicblom.inspiration.model.shape.ShapeModifier;
+import com.github.atomicblom.inspiration.model.size.DefaultSizeModifier;
+import com.github.atomicblom.inspiration.model.size.SizeModifier;
 import com.github.atomicblom.inspiration.util.Logger;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,12 +57,74 @@ public final class PoemEvents
             return;
         }
 
-        final List<Inspiration> validInspirations = Lists.newArrayList();
-        for (final IAcquiredInspiration inspiration : possibleActions.get()) {
-            
+        final LocationModifier locationModifier = getLocationModifier(lastLineParts);
+        final SizeModifier sizeModifier = getSizeModifier(lastLineParts);
+        final ShapeModifier shapeModifier = getShapeModifier(lastLineParts);
+        final BehaviourModifier behaviourModifier = getBehaviourModifier(lastLineParts);
+
+        final List<ActionToPerform> validInspirations = Lists.newArrayList();
+        for (final IAcquiredInspiration acquiredInspiration : possibleActions.get()) {
+            final Inspiration inspiration = acquiredInspiration.getInspiration();
+            final Action action = getAction(inspiration, lastLineParts);
+
+            final ActionContext context = new ActionContext(
+                    locationModifier,
+                    sizeModifier,
+                    shapeModifier,
+                    behaviourModifier);
+
+            if (action.canBePerformedOnInspiration(inspiration)) {
+                double minimumInspiration = action.getMinimumConsumedInspiration(context);
+                if (acquiredInspiration.getAmount() >= minimumInspiration) {
+                    validInspirations.add(new ActionToPerform(acquiredInspiration, action, context));
+                }
+            }
+        }
+
+        final Optional<ActionToPerform> firstValid = validInspirations
+                .stream()
+                .sorted(Comparator.comparingDouble((i) -> i.getAcquiredInspiration().getAmount()))
+                .findFirst();
+
+        if (firstValid.isPresent()) {
+            final ActionToPerform actionToPerform = firstValid.get();
+            actionToPerform.getAction().invoke(
+                    target,
+                    (WorldServer)target.world,
+                    actionToPerform.getAcquiredInspiration(),
+                    actionToPerform.getContext()
+            );
+        } else {
+            Logger.info("Could not find a valid action to perform");
         }
     }
-    
+
+    private static Action getAction(Inspiration inspiration, String[] lastLineParts)
+    {
+        return inspiration.getDefaultAction();
+    }
+
+    private static BehaviourModifier getBehaviourModifier(String[] lastLineParts)
+    {
+        return new DefaultBehaviourModifier();
+    }
+
+    private static ShapeModifier getShapeModifier(String[] lastLineParts)
+    {
+        return new DefaultShapeModifier();
+    }
+
+
+    private static SizeModifier getSizeModifier(String[] lastLineParts)
+    {
+        return new DefaultSizeModifier();
+    }
+
+    private static LocationModifier getLocationModifier(String[] lastLineParts)
+    {
+        return new DefaultLocationModifier();
+    }
+
     private static Optional<List<IAcquiredInspiration>> getInspirations(String[] parts, List<IAcquiredInspiration> playerInspirations) {
         final List<IAcquiredInspiration> usableInspirations = Lists.newArrayList();
 

@@ -2,12 +2,12 @@ package com.github.atomicblom.inspiration.command;
 
 import com.github.atomicblom.inspiration.Services;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
-import com.github.atomicblom.inspiration.model.EntityInspiration;
-import com.github.atomicblom.inspiration.model.ItemInspiration;
+import com.github.atomicblom.inspiration.model.inspiration.EntityInspiration;
+import com.github.atomicblom.inspiration.model.inspiration.ItemInspiration;
 import com.github.atomicblom.inspiration.network.message.GatherTranslationRequest;
 import com.github.atomicblom.inspiration.util.Reference;
 import com.github.atomicblom.inspiration.model.Capability;
-import com.github.atomicblom.inspiration.model.Inspiration;
+import com.github.atomicblom.inspiration.model.inspiration.Inspiration;
 import com.google.common.collect.Lists;
 import mcp.MethodsReturnNonnullByDefault;
 import net.minecraft.command.CommandBase;
@@ -27,7 +27,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

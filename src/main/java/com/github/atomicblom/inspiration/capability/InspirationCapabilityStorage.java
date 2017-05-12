@@ -1,9 +1,9 @@
 package com.github.atomicblom.inspiration.capability;
 
 import com.github.atomicblom.inspiration.model.AcquiredInspiration;
-import com.github.atomicblom.inspiration.model.EntityInspiration;
-import com.github.atomicblom.inspiration.model.Inspiration;
-import com.github.atomicblom.inspiration.model.ItemInspiration;
+import com.github.atomicblom.inspiration.model.inspiration.EntityInspiration;
+import com.github.atomicblom.inspiration.model.inspiration.Inspiration;
+import com.github.atomicblom.inspiration.model.inspiration.ItemInspiration;
 import com.github.atomicblom.inspiration.util.Logger;
 import com.github.atomicblom.inspiration.util.Reference;
 import net.minecraft.entity.Entity;
@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 

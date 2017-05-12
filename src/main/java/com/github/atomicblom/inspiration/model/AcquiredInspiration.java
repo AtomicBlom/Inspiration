@@ -1,5 +1,6 @@
 package com.github.atomicblom.inspiration.model;
 
+import com.github.atomicblom.inspiration.model.inspiration.Inspiration;
 import com.github.atomicblom.inspiration.util.Reference;
 
 public class AcquiredInspiration implements IAcquiredInspiration {
@@ -64,5 +65,11 @@ public class AcquiredInspiration implements IAcquiredInspiration {
 
     public String getTranslation() {
         return String.join(" ", translation);
+    }
+
+    @Override
+    public int compareTo(IAcquiredInspiration other)
+    {
+        return Double.compare(amount, other.getAmount());
     }
 }

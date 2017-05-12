@@ -4,6 +4,9 @@ import com.github.atomicblom.inspiration.InspirationMod;
 import com.github.atomicblom.inspiration.events.ValidPoemEvent;
 import com.github.atomicblom.inspiration.model.Capability;
 import com.github.atomicblom.inspiration.capability.IInspirationCapability;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -15,7 +18,6 @@ public final class ChatEvents
 {
     @SubscribeEvent
     public static void onServerChatEvent(ServerChatEvent event) {
-
         final IInspirationCapability capability = event.getPlayer().getCapability(Capability.INSPIRATION, null);
         assert capability != null;
 
@@ -25,9 +27,11 @@ public final class ChatEvents
                 case "retrigger":
                     break;
                 case "prefab":
-                    capability.addPoemLine(event.getUsername() + " did a little poem");
-                    capability.addPoemLine("It was a little example for testing");
-                    capability.addPoemLine("That invoked the magic cactus");
+                    final WorldServer world = event.getPlayer().getServerWorld();
+                    final PlayerList playerList = world.getMinecraftServer().getPlayerList();
+                    addDebugPoemLine(capability, playerList, event.getUsername() + " did a little poem");
+                    addDebugPoemLine(capability, playerList, "It was a little example for testing");
+                    addDebugPoemLine(capability, playerList, "That invoked magic stone sphere");
                     break;
                 default:
                     capability.addPoemLine(message);
@@ -40,5 +44,11 @@ public final class ChatEvents
             MinecraftForge.EVENT_BUS.post(new ValidPoemEvent(event.getPlayer(), capability));
         }
 
+    }
+
+    private static void addDebugPoemLine(IInspirationCapability capability, PlayerList playerList, String line)
+    {
+        capability.addPoemLine(line);
+        playerList.sendMessage(new TextComponentString(line));
     }
 }

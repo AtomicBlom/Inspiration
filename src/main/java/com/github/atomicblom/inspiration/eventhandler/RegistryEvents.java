@@ -1,7 +1,7 @@
 package com.github.atomicblom.inspiration.eventhandler;
 
 import com.github.atomicblom.inspiration.Services;
-import com.github.atomicblom.inspiration.model.Action;
+import com.github.atomicblom.inspiration.model.action.Action;
 import com.github.atomicblom.inspiration.util.Reference;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
